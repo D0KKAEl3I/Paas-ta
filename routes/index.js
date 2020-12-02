@@ -6,6 +6,7 @@ const path = require('path');
 const router = require('express').Router();
 const {userModel, reportModel} = require('../models/users')
 const images = require('../models/images');
+const places = require('../models/places')
 
 const uploader = multer({
   storage: multer.diskStorage({
@@ -20,8 +21,18 @@ const uploader = multer({
   }),
 });
 
-router.get('/', (req, res, next) => {
-    res.render('index')
+router.post('/addPlace', (req,res,next)=>{
+    places.insertMany(req.body).then(r=>{
+        res.send(true)
+    }).catch(e=>{
+        res.status(500).send(e)
+    })
+})
+
+router.get('/findPlace', (req,res,next)=>{
+    places.find().then(r=>{
+       res.json(r)
+    })
 })
 
 router.post('/join', (req, res, next)=>{

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.5/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <form action="#">
+        <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" placeholder="엑셀파일" name="file"/>
+        <input type="submit" value="정보 전송"> 
+    </form> 
+    <script>
+        document.getElementsByTagName('form')[0].onsubmit = function (event) {
+            event.preventDefault();
+            let input = document.getElementsByName('file')[0]
+            let reader = new FileReader();
+            reader.onload = function () {
+                let data = reader.result;
+                let workBook = XLSX.read(data, { type: 'binary' });
+                workBook.SheetNames.forEach(function (sheetName) {   
+                    let rows = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
+                    axios.post('/addPlace',rows).then(r=>{
+                        alert('생성 성공')
+                    }).catch(()=>{
+                        alert('생성 실패') 
+                    })
+                }) 
+            }; 
+            reader.onerror = ()=>{alert('파일에 문제 있음')} 
+            reader.readAsBinaryString(input.files[0]);
+        }
+    </script>
+</body>
+</html> 

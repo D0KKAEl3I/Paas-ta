@@ -10,10 +10,7 @@ const path = require('path')
 
 app.use('/', indexRouter);
 app.use('/placeImg', express.static('placeImg'))
-
-app.set('views', path.join(__dirname, 'views'));
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'views'),{extensions:['html']}));
 
 //데이터베이스
 const mongoose = require('mongoose')
