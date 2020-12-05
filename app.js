@@ -21,10 +21,7 @@ mongoose.connect(config.database.url, { useUnifiedTopology: true, useNewUrlParse
 })
 
 //추가 모듈
-const bodyParser = require('body-parser')
-const crypto = require('crypto')
-const {v4 : uuirv4} = require('uuid')
-
+const bodyParser = require('body-parser')     
 
 app.listen(config.server.port, () => {
     console.info(`[INFO] SERVER RUNNING ${config.server.port}`)

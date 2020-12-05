@@ -1,9 +1,16 @@
 const mongoose = require('mongoose');
 
-const placeSchema = new mongoose.Schema({
-    placeName : {type: String, required: true},
-    lat : {type:Number, required: true},
-    lon : {type:Number, required: true} 
-}, {timestamps: true})
+const commentSchema = new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
+    comment: { type: String, required: true }
+})
 
-module.exports =  mongoose.model('place', placeSchema)
+const placeSchema = new mongoose.Schema({
+    placeName: { type: String, required: true },
+    lat: { type: Number, required: true },
+    lon: { type: Number, required: true },
+    comments: [commentSchema]
+}, { timestamps: true })
+
+exports.placeModel = mongoose.model('place', placeSchema)
+exports.commentModel = mongoose.model('comment', commentSchema)
