@@ -1,7 +1,10 @@
-//기본셋팅
 const express = require('express')
+const bodyParser = require('body-parser')     
+
 const app = express();
 app.use(express.json())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 //파일 연결
 const config = require('./config/index')
@@ -19,9 +22,6 @@ mongoose.set('useCreateIndex', true)
 mongoose.connect(config.database.url, { useUnifiedTopology: true, useNewUrlParser: true }, () => {
     console.info(`[INFO] MONGODB CONNECTED`);
 })
-
-//추가 모듈
-const bodyParser = require('body-parser')     
 
 app.listen(config.server.port, () => {
     console.info(`[INFO] SERVER RUNNING ${config.server.port}`)
